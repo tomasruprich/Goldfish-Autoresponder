@@ -268,11 +268,22 @@
         					{
             					$returnpath = substr($line, strpos($line, '<') + 1, strpos($line, '>') - strpos($line, '<')-1)."\n";
         					} 
-    					
+
+						# From header found
     						if (substr($line, 0, 5) == 'From:' && strstr($line,"@"))
 					        {
-						        $address = substr($line, strpos($line, '<') + 1, strpos($line, '>') - strpos($line, '<')-1)."\n";
-						        break;
+							# if < sign is present in From header
+							if (strstr($line,"<"))
+							{
+							$address = substr($line, strpos($line, '<') + 1, strpos($line, '>') - strpos($line, '<')-1)."\n";
+							break;
+							} 
+							# if < sign is not present in From header
+							else 
+							{
+							$address = substr($line, 6);
+							break;
+							}
 					        } 
 					        elseif(substr($line,0,5) == 'From:' && !strstr($line,"@") && !empty ($returnpath))
 					        {
